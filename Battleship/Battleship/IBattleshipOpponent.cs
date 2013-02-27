@@ -10,8 +10,6 @@
             get;
         }
 
-        void NewMatch(string opponent);
-
         void NewGame(Size size);
 
         void PlaceShips(ReadOnlyCollection<Ship> ships);
@@ -27,7 +25,5 @@
         void GameWon();
 
         void GameLost();
-
-        void MatchOver();
     }
 }

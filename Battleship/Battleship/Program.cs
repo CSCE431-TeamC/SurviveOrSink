@@ -13,18 +13,13 @@
             BattleshipCompetition bc = new BattleshipCompetition(
                 op1,
                 op2,
-                1,                     // Wins per match
-                true,                   // Play out?
                 new Size(10, 10),       // Board Size
                 2, 3, 3, 4, 5           // Ship Sizes
             );
 
-            var scores = bc.RunCompetition();
+            var winner = bc.RunCompetition();
 
-            foreach (var key in scores.Keys.OrderByDescending(k => scores[k]))
-            {
-                Console.WriteLine("{0}: {1}", key.Name, scores[key]);
-            }
+            Console.WriteLine("{0} won the match!", winner.Name);
 
             Console.ReadKey(true);
         }

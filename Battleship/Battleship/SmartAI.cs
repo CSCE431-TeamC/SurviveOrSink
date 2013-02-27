@@ -4,9 +4,6 @@ namespace Battleship
     using System.Collections.ObjectModel;
     using System.Collections.Generic;
 
-    // This player makes no effort to model what the opponent does or place
-    // ships strategically.  It spends all of its time trying to estimate the
-    // probability that one of the remaining ships is at each unexplored (x,y).
     public class SmartAI : IBattleshipOpponent
     {
         // UNKNOWN - we know nothing about this location
@@ -29,7 +26,7 @@ namespace Battleship
         // metric describing how much space/possible hits each (x,y) has
         private int[,] space, hits;
 
-        private bool DEBUG = true;
+        private bool DEBUG = false;
         private Random rand = new Random();
 
         public string Name { get { return "Smart AI"; } }
