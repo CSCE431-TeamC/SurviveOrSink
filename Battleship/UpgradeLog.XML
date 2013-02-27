@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="Battleship">
+</Property><Property Name="Solution File" Value="C:\Users\Brett\Desktop\Battleship\Battleship\Battleship.sln">
+</Property><Property Name="Date" Value="Tuesday, February 26, 2013">
+</Property><Property Name="Time" Value="18:49 PM">
+</Property></Properties><Event ErrorLevel="0" Project="" Source="Battleship.sln" Description="File successfully backed up as C:\Users\Brett\Desktop\Battleship\Battleship\Backup\Battleship.sln">
+</Event><Event ErrorLevel="0" Project="Battleship" Source="Battleship\Battleship.csproj" Description="Project file successfully backed up as C:\Users\Brett\Desktop\Battleship\Battleship\Backup\Battleship\Battleship.csproj">
+</Event><Event ErrorLevel="0" Project="Battleship" Source="Battleship\BattleshipCompetition.cs" Description="File successfully backed up as C:\Users\Brett\Desktop\Battleship\Battleship\Backup\Battleship\BattleshipCompetition.cs">
+</Event><Event ErrorLevel="0" Project="Battleship" Source="Battleship\IBattleshipOpponent.cs" Description="File successfully backed up as C:\Users\Brett\Desktop\Battleship\Battleship\Backup\Battleship\IBattleshipOpponent.cs">
+</Event><Event ErrorLevel="0" Project="Battleship" Source="Battleship\Program.cs" Description="File successfully backed up as C:\Users\Brett\Desktop\Battleship\Battleship\Backup\Battleship\Program.cs">
+</Event><Event ErrorLevel="0" Project="Battleship" Source="Battleship\Properties\AssemblyInfo.cs" Description="File successfully backed up as C:\Users\Brett\Desktop\Battleship\Battleship\Backup\Battleship\Properties\AssemblyInfo.cs">
+</Event><Event ErrorLevel="0" Project="Battleship" Source="Battleship\RandomOpponent.cs" Description="File successfully backed up as C:\Users\Brett\Desktop\Battleship\Battleship\Backup\Battleship\RandomOpponent.cs">
+</Event><Event ErrorLevel="0" Project="Battleship" Source="Battleship\Ship.cs" Description="File successfully backed up as C:\Users\Brett\Desktop\Battleship\Battleship\Backup\Battleship\Ship.cs">
+</Event><Event ErrorLevel="0" Project="Battleship" Source="Battleship\ShipOrientation.cs" Description="File successfully backed up as C:\Users\Brett\Desktop\Battleship\Battleship\Backup\Battleship\ShipOrientation.cs">
+</Event><Event ErrorLevel="0" Project="Battleship" Source="Battleship\Battleship.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="Battleship" Source="Battleship\Battleship.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="Battleship.sln" Description="Solution converted successfully">
+</Event><Event ErrorLevel="3" Project="" Source="Battleship.sln" Description="Converted">
+</Event><Event ErrorLevel="0" Project="Battleship" Source="Battleship\Battleship.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event></UpgradeLog>
