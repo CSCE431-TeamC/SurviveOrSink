@@ -7,12 +7,12 @@ using Battleship;
 public class TestLevel_GUI : MonoBehaviour {
 	
 	void OnGUI() {
-		GUI.Box(new Rect(Screen.width-300,0,300,200),"Chat Window");
+		//GUI.Box(new Rect(Screen.width-300,0,300,200),"Chat Window");
 	}
 	
 	// Use this for initialization
 	void Start () {
-		
+		/*
 		var op1 = new SmartAI();
         var op2 = new RandomOpponent();
 
@@ -28,7 +28,7 @@ public class TestLevel_GUI : MonoBehaviour {
             Console.WriteLine("{0} won the match!", winner.Name);
 			print (winner.Name + " won the match!");
             //Console.ReadKey(true);
-
+		 */
 	}
 	
 	// Update is called once per frame
