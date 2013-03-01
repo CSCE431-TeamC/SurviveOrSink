@@ -9,17 +9,17 @@ public class MainMenu : MonoBehaviour {
 		//int halfHeight = (int) Screen.height/2;
 		
 		//Creating random buttons
-		if(GUI.Button(new Rect(halfWidth-200,100,400,100),"Test Button")) {
-			Application.LoadLevel("TestLevel");
+		if(GUI.Button(new Rect(halfWidth-200,100,400,100),"Button One")) {
+			Application.LoadLevel("Game");
 		}
 		if(GUI.Button(new Rect(halfWidth-200,210,400,100),"Another Test Button")) {
-			Application.LoadLevel("TestLevel");
+			Application.LoadLevel("Game");
 		}
 		if(GUI.Button(new Rect(halfWidth-200,320,400,100),"Yet Another Test Button")) {
-			Application.LoadLevel("TestLevel");
+			Application.LoadLevel("Game");
 		}
 		if(GUI.Button(new Rect(halfWidth-200,430,400,100),"Still a Test Button")) {
-			Application.LoadLevel("TestLevel");
+			Application.LoadLevel("Game");
 		}
 	}
 	// Use this for initialization
