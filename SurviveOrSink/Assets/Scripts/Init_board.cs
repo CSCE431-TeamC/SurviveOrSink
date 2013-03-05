@@ -12,7 +12,7 @@ public class Init_board : MonoBehaviour
 	void OnGUI()
 	{
 		var threeQuartersWidth = (int)(3 * Screen.width/4);
-		if( Time.time < 5)
+		if( (int) Time.timeSinceLevelLoad < 5)
 		{
 			GUI.Label(new Rect(threeQuartersWidth,25,100,100), "BEGIN GAME!");
 		}
