@@ -2,33 +2,135 @@ using UnityEngine;
 using System.Collections;
 
 public class MainMenu : MonoBehaviour {
+	public GUISkin mySkin;
+	public Texture2D logo;
+	
+	//images for links
+	public GUIStyle play;
+	public GUIStyle highscores;
+	public GUIStyle instructions;
+	public GUIStyle options;
+	public GUIStyle credits;
+	public GUIStyle quit;
+	public GUIStyle back;
+	
+	//used in popup window
+	private bool showPopup = false;	//toggles popup window for various submenus
+	private Rect rectPopup;			//rectangle for popup window
+	private int windowID = -1;
+	
+	//images for popup windows
+	public GUIStyle instructionsPopup;
+	public GUIStyle creditsPopup;
+	public GUIStyle wipPopup;
+	
+	//used in determining button size & position
+	private int buttonH;		//height of button
+	private int buttonW;		//width of button
+	private int buttonSpace;	//space between buttons
+	private int buttonHoriz;	//x-coordinate of button
+	private int buttonVert;		//y-coordinate of button
 	
 	// Almost everything GUI-related goes here
 	void OnGUI() {
-		int halfWidth = (int) Screen.width/2;
-		//int halfHeight = (int) Screen.height/2;
+		//initializing...
+		buttonH = 40;
+		buttonW = 265;
+		buttonSpace = 10;
+		buttonHoriz = (int) Screen.width/2-buttonW/2;
+		buttonVert = 100;
+		rectPopup = new Rect((int)Screen.width/2-480,80,960,520);
+		GUI.skin = mySkin;
 		
-		//Creating random buttons
-		if(GUI.Button(new Rect(halfWidth-200,100,400,100),"Button One")) {
-			Application.LoadLevel("Game");
+		//Game Logo
+		GUI.Box(new Rect(0,10,Screen.width,73),logo);
+		
+		if(!showPopup){
+			//Play button
+			if(GUI.Button(new Rect(buttonHoriz,buttonVert,buttonW,buttonH),"",play))
+				Application.LoadLevel("Game");
+			/**************
+			Eventually offer options for play: Single Player, Multiplayer, Custom Game
+			****************/
+	
+			//High scores button
+			updateButtonVert();
+			if(GUI.Button(new Rect(buttonHoriz,buttonVert,buttonW,buttonH),"",highscores)) {
+				//Load scoreboard
+				windowID = 2;
+				popupToggle();
+			}
+			
+			//Instructions button
+			updateButtonVert();
+			if(GUI.Button(new Rect(buttonHoriz,buttonVert,buttonW,buttonH),"",instructions)) {
+				windowID = 0;
+				popupToggle();
+			}
+			
+			//Options button
+			updateButtonVert();
+			if(GUI.Button(new Rect(buttonHoriz,buttonVert,buttonW,buttonH),"",options)) {
+				//Load options
+				windowID = 2;
+				popupToggle();
+			}
+			
+			//Credits button
+			updateButtonVert();
+			if(GUI.Button(new Rect(buttonHoriz,buttonVert,buttonW,buttonH),"",credits)) {
+				windowID = 1;
+				popupToggle();
+			}
+	
+			//Quit button
+			updateButtonVert();
+			if(GUI.Button(new Rect(buttonHoriz,buttonVert,buttonW,buttonH),"",quit))
+				Application.Quit();
 		}
-		if(GUI.Button(new Rect(halfWidth-200,210,400,100),"Another Test Button")) {
-			Application.LoadLevel("Game");
-		}
-		if(GUI.Button(new Rect(halfWidth-200,320,400,100),"Yet Another Test Button")) {
-			Application.LoadLevel("Game");
-		}
-		if(GUI.Button(new Rect(halfWidth-200,430,400,100),"Still a Test Button")) {
-			Application.LoadLevel("Game");
+		else {
+			rectPopup = GUI.Window(windowID, rectPopup, PopupWindow, "");
+			GUI.FocusWindow(windowID);
 		}
 	}
-	// Use this for initialization
-	void Start () {
 	
+	//Separate window that pops up
+	private void PopupWindow(int windowID) {
+		//Instructions
+		if (windowID == 0) {
+			GUI.Box(new Rect(0,0,960,520),"",instructionsPopup);
+			if (GUI.Button(new Rect(850,460,92,37),"",back)) {
+				popupToggle();
+			}
+		}
+		
+		//Credits
+		else if (windowID == 1) {
+			GUI.Box(new Rect(0,0,960,520),"",creditsPopup);
+			if (GUI.Button(new Rect(850,460,92,37),"",back)) {
+				popupToggle();
+			}			
+		}
+		
+		//Stuff to be updated (WIP)
+		else if (windowID == 2) {
+			GUI.Box(new Rect(0,0,960,520),"",wipPopup);
+			if (GUI.Button(new Rect(850,460,92,37),"",back)) {
+				popupToggle();
+			}			
+		}
 	}
 	
-	// Update is called once per frame
-	void Update () {
+	//toggles popup window on/off
+	private void popupToggle() {
+		if (showPopup == true)
+			showPopup = false;
+		else
+			showPopup = true;
+	}
 	
+	//creates new y-coordinate for next button
+	private void updateButtonVert() {
+		buttonVert += (buttonH+buttonSpace);
 	}
 }
