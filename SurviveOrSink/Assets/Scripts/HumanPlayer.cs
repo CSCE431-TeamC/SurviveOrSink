@@ -24,7 +24,7 @@ public class HumanPlayer : ScriptableObject, IBattleshipOpponent
                 new Point(
                     RandomOpponent.rand.Next(this.gameSize.Width),
                     RandomOpponent.rand.Next(this.gameSize.Height)),
-                (ShipOrientation)RandomOpponent.rand.Next(2));
+                (ShipOrientation)RandomOpponent.rand.Next(2),gameSize);
         }
     }
 

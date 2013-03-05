@@ -91,7 +91,7 @@ namespace Battleship
         /// </returns>
         public static bool operator !=(Size sz1, Size sz2)
         {
-            return (sz1._width != sz2._width || sz1._height != sz2._height);
+            return !(sz1 == sz2);
         }
 
         /// <summary>
@@ -128,6 +128,10 @@ namespace Battleship
         /// </returns>
         public static bool operator ==(Size sz1, Size sz2)
         {
+            if (System.Object.ReferenceEquals(sz1, sz2)) return true;
+
+            if (((object)sz1 == null) || ((object)sz2 == null)) return false;
+
             return (sz1._width == sz2._width && sz1._height == sz2._height);
         }
 

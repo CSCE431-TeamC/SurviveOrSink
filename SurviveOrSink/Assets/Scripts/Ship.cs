@@ -4,22 +4,52 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public sealed class Ship
+    public class Ship
     {
         private bool isPlaced = false;
-        private Point location;
-        private ShipOrientation orientation;
-        private int length;
+        private Point mLocation;
+		private bool[] hitMarkers;
+        private ShipOrientation mOrientation;
+        private int mLength;
+        private ShipType mType;
 
-        public Ship(int length)
+        public Ship(ShipType type)
         {
-            if (length <= 1)
+			mType = type;
+            /*if (length <= 1)
+            {
+                throw new ArgumentOutOfRangeException("length");
+            }*/
+			switch(mType) {
+			case ShipType.AIRCRAFT_CARRIER:
+				mLength = 5;
+				break;
+			case ShipType.BATTLESHIP:
+				mLength = 4;
+				break;
+			case ShipType.DESTROYER:
+				mLength = 3;
+				break;
+			case ShipType.SUBMARINE:
+				mLength = 3;
+				break;
+			case ShipType.PATROL_BOAT:
+				mLength = 2;
+				break;
+			}
+			hitMarkers = new bool[mLength];
+			for(int i = 0;i < mLength;i++) hitMarkers[i] = false;
+        }
+		public Ship(int length) {
+			if (length <= 1)
             {
                 throw new ArgumentOutOfRangeException("length");
             }
-
-            this.length = length;
-        }
+			mType = ShipType.CUSTOM;
+			mLength = length;
+			hitMarkers = new bool[mLength];
+			for(int i = 0;i < mLength;i++) hitMarkers[i] = false;
+		}
 
         public bool IsPlaced
         {
@@ -38,7 +68,7 @@
                     throw new InvalidOperationException();
                 }
 
-                return this.location;
+                return this.mLocation;
             }
         }
 
@@ -51,7 +81,7 @@
                     throw new InvalidOperationException();
                 }
 
-                return this.orientation;
+                return this.mOrientation;
             }
         }
 
@@ -59,16 +89,31 @@
         {
             get
             {
-                return this.length;
+                return this.mLength;
             }
         }
 
-        public void Place(Point location, ShipOrientation orientation)
+        public bool Place(Point location, ShipOrientation orientation, Size boardSize)
         {
-            this.location = location;
-            this.orientation = orientation;
+            this.mLocation = location;
+            this.mOrientation = orientation;
             this.isPlaced = true;
+
+            if (!IsValid(boardSize))
+            {
+                mLocation = new Point(-1, -1);
+                isPlaced = false;
+                return false;
+            }
+            return true;
         }
+		
+		public void Show() {
+			if(mOrientation == ShipOrientation.Horizontal) {
+				
+			} else {
+			}
+		}
 
         public bool IsValid(Size boardSize)
         {
@@ -77,21 +122,21 @@
                 return false;
             }
 
-            if (this.location.X < 0 || this.location.Y < 0)
+            if (this.mLocation.X < 0 || this.mLocation.Y < 0)
             {
                 return false;
             }
 
-            if (this.orientation == ShipOrientation.Horizontal)
+            if (this.mOrientation == ShipOrientation.Horizontal)
             {
-                if (this.location.Y >= boardSize.Height || this.location.X + this.length > boardSize.Width)
+                if (this.mLocation.Y >= boardSize.Height || this.mLocation.X + this.mLength > boardSize.Width)
                 {
                     return false;
                 }
             }
             else
             {
-                if (this.location.X >= boardSize.Width || this.location.Y + this.length > boardSize.Height)
+                if (this.mLocation.X >= boardSize.Width || this.mLocation.Y + this.mLength > boardSize.Height)
                 {
                     return false;
                 }
@@ -102,36 +147,59 @@
 
         public bool IsAt(Point location)
         {
-            if (this.Orientation == ShipOrientation.Horizontal)
+            if (this.mOrientation == ShipOrientation.Horizontal)
             {
-                return (this.location.Y == location.Y) && (this.location.X <= location.X) && (this.location.X + this.length > location.X);
+                return (this.mLocation.Y == location.Y) && (this.mLocation.X <= location.X) && (this.mLocation.X + this.mLength > location.X);
             }
             else
             {
-                return (this.location.X == location.X) && (this.location.Y <= location.Y) && (this.location.Y + this.length > location.Y);
+                return (this.mLocation.X == location.X) && (this.mLocation.Y <= location.Y) && (this.mLocation.Y + this.mLength > location.Y);
             }
         }
+		
+		public bool testHit(Point location) {
+			int hitLocation = -1;
+			
+			if((mOrientation == ShipOrientation.Horizontal) && (location.Y == mLocation.Y)) {
+				int diff = location.X - mLocation.X;
+				if(diff >= 0 && diff < mLength) {
+					hitLocation = diff;
+				}
+			} else if((mOrientation == ShipOrientation.Vertical) && (location.X == mLocation.X)) {
+				int diff = location.Y - mLocation.Y;
+				if(diff >= 0 && diff < mLength) {
+					hitLocation = diff;
+				}
+			}
+			
+			if(hitLocation > -1) {
+				hitMarkers[hitLocation] = true;
+			}
+			
+			return (hitLocation > -1);
+		}
 
         public IEnumerable<Point> GetAllLocations()
         {
-            if (this.Orientation == ShipOrientation.Horizontal)
+            if (this.mOrientation == ShipOrientation.Horizontal)
             {
-                for (int i = 0; i < this.length; i++)
+                for (int i = 0; i < this.mLength; i++)
                 {
-                    yield return new Point(this.location.X + i, this.location.Y);
+                    yield return new Point(this.mLocation.X + i, this.mLocation.Y);
                 }
             }
             else
             {
-                for (int i = 0; i < this.length; i++)
+                for (int i = 0; i < this.mLength; i++)
                 {
-                    yield return new Point(this.location.X, this.location.Y + i);
+                    yield return new Point(this.mLocation.X, this.mLocation.Y + i);
                 }
             }
         }
 
         public bool ConflictsWith(Ship otherShip)
         {
+            if (!otherShip.isPlaced) return false;
             foreach (var otherShipLocation in otherShip.GetAllLocations())
             {
                 if (this.IsAt(otherShipLocation))
@@ -143,15 +211,11 @@
             return false;
         }
 
-        public bool IsSunk(IEnumerable<Point> shots)
+        public bool IsSunk()
         {
-            foreach (Point location in this.GetAllLocations())
-            {
-                if (!shots.Where(s => s.X == location.X && s.Y == location.Y).Any())
-                {
-                    return false;
-                }
-            }
+			foreach(bool hit in hitMarkers) {
+				if(!hit) return false;
+			}
 
             return true;
         }

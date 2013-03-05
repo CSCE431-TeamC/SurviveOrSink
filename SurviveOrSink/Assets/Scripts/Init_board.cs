@@ -41,7 +41,7 @@ public class Init_board : MonoBehaviour
 				else
 					cube.renderer.material.color = new Color((float).1, (float).1, (float).1);
 					*/
-				cube.transform.position = new Vector3(rows-3, (float)-1, cols);
+				cube.transform.position = new Vector3(rows, (float)-1, cols);
 				cube.transform.localScale += new Vector3(0, (float)-.5, 0);
 				gameGrid[rows,cols] = cube;
 				
@@ -69,19 +69,14 @@ public class Init_board : MonoBehaviour
 		}
 		
 		//gameGrid[16].renderer.material.color = Color.white;
-		var op1 = new RandomOpponent();
-        var op2 = new HumanPlayer();
+        var go1 = new GameObject("Player 1");
+        var op1 = go1.AddComponent<RandomOpponent>();
 
-        BattleshipCompetition bc = new BattleshipCompetition
-		(
-            op1,
-            op2,
-            new Size(10, 10),       // Board Size
-            2, 3, 3, 4, 5        // Ship Sizes
-        );
+        var go2 = new GameObject("Player 2");
+        var op2 = go2.AddComponent<RandomOpponent>();
 
-        var winner = bc.RunCompetition();
-		print (winner.Name + " won the match!");
+        var battle = new GameObject("LocalBattle");
+        battle.AddComponent<LocalBattle>().initialize(op1, op2, new Size(10, 10));
 	
 	}
 	

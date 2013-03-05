@@ -57,7 +57,7 @@ namespace Battleship
                     new Point(
                         rand.Next(width),
                         rand.Next(height)),
-                    (ShipOrientation)rand.Next(2));
+                    (ShipOrientation)rand.Next(2),new Size(10,10));
             }
         }
 

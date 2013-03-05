@@ -11,7 +11,36 @@ public class BattleshipCompetition : MonoBehaviour
     private IBattleshipOpponent op2;
     private Size boardSize;
     private List<int> shipSizes;
+	private List<ShipType> shipTypes; // for use with models
+	private bool useModels;
+	
+	// for use with default game type - different ship models
+    public BattleshipCompetition(IBattleshipOpponent op1, IBattleshipOpponent op2)
+    {
+        if (op1 == null)
+        {
+            throw new ArgumentNullException("op1");
+        }
 
+        if (op2 == null)
+        {
+            throw new ArgumentNullException("op2");
+        }
+
+        this.op1 = op1;
+        this.op2 = op2;
+        this.boardSize = new Size(10,10);
+		this.useModels = true;
+		this.shipSizes = new List<int>();
+		this.shipTypes = new List<ShipType>();
+		
+		this.shipTypes.Add(ShipType.AIRCRAFT_CARRIER);
+		this.shipTypes.Add(ShipType.BATTLESHIP);
+		this.shipTypes.Add(ShipType.DESTROYER);
+		this.shipTypes.Add(ShipType.SUBMARINE);
+		this.shipTypes.Add(ShipType.PATROL_BOAT);
+    }
+	
     public BattleshipCompetition(IBattleshipOpponent op1, IBattleshipOpponent op2, Size boardSize, params int[] shipSizes)
     {
         if (op1 == null)
@@ -47,9 +76,11 @@ public class BattleshipCompetition : MonoBehaviour
         this.op1 = op1;
         this.op2 = op2;
         this.boardSize = boardSize;
+		this.shipTypes = new List<ShipType>();
         this.shipSizes = new List<int>(shipSizes);
+		this.useModels = false;
     }
-
+	
     public IBattleshipOpponent RunCompetition()
     {
         var rand = new System.Random();
@@ -98,8 +129,13 @@ public class BattleshipCompetition : MonoBehaviour
         success = false;
         do
         {
-            ships[first] = (from s in this.shipSizes
-                            select new Ship(s)).ToList();
+			if(useModels) {
+				ships[first] = (from s in this.shipTypes
+								select new Ship(s)).ToList();
+			} else {
+	            ships[first] = (from s in this.shipSizes
+	                            select new Ship(s)).ToList();
+			}
 
             opponents[first].PlaceShips(ships[first].AsReadOnly());
 
@@ -158,8 +194,13 @@ public class BattleshipCompetition : MonoBehaviour
         success = false;
         do
         {
-            ships[second] = (from s in this.shipSizes
-                                select new Ship(s)).ToList();
+			if(useModels) {
+				ships[second] = (from s in this.shipTypes
+									select new Ship(s)).ToList();
+			} else {
+	            ships[second] = (from s in this.shipSizes
+	                                select new Ship(s)).ToList();
+			}
 
             opponents[second].PlaceShips(ships[second].AsReadOnly());
 
@@ -222,22 +263,34 @@ public class BattleshipCompetition : MonoBehaviour
 
             opponents[1 - current].OpponentShot(shot);
 
-            var ship = (from s in ships[1 - current]
+            /*var ship = (from s in ships[1 - current]
                         where s.IsAt(shot)
-                        select s).SingleOrDefault();
+                        select s).SingleOrDefault();*/
+			
+			foreach(var ship in ships[1-current]) {
+				if(ship.testHit(shot)) {
+					print ("Player " + (current+1) + " hit: (" + shot.X + "," + shot.Y + ")");
+					var sunk = ship.IsSunk();
+					if(sunk) print ("Player " + (current+1) + " sunk " + ship.Length);
+					opponents[current].ShotHit(shot,sunk);
+					break;
+				} else {
+					opponents[current].ShotMiss(shot);
+				}
+			}
 
-            if (ship != null)
+            /*if (ship != null)
             {
-                var sunk = ship.IsSunk(shots[current]);
+                var sunk = ship.IsSunk();
                 opponents[current].ShotHit(shot, sunk);
             }
             else
             {
                 opponents[current].ShotMiss(shot);
-            }
+            }*/
 
             var unsunk = (from s in ships[1 - current]
-                            where !s.IsSunk(shots[current])
+                            where !s.IsSunk()
                             select s);
 
             //current player has sunked all ships, break out of game loop
