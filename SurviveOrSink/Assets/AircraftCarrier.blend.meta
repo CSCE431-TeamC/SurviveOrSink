@@ -1,49 +1,16 @@
 fileFormatVersion: 2
-guid: fceb368a0ed218e469c06cbe696a78d9
+guid: 857d9b395b3012644b4d885ee2fbcbcd
 ModelImporter:
-  serializedVersion: 15
-  fileIDToRecycleName:
-    100000: //RootNode
-    100002: Cylinder
-    100004: Plane
-    100006: Plane_001
-    100008: Plane_002
-    100010: Plane_003
-    100012: Plane_004
-    400000: //RootNode
-    400002: Cylinder
-    400004: Plane
-    400006: Plane_001
-    400008: Plane_002
-    400010: Plane_003
-    400012: Plane_004
-    2300000: Cylinder
-    2300002: Plane
-    2300004: Plane_001
-    2300006: Plane_002
-    2300008: Plane_003
-    2300010: Plane_004
-    3300000: Cylinder
-    3300002: Plane
-    3300004: Plane_001
-    3300006: Plane_002
-    3300008: Plane_003
-    3300010: Plane_004
-    4300000: Cylinder
-    4300002: Plane_004
-    4300004: Plane_003
-    4300006: Plane_002
-    4300008: Plane_001
-    4300010: Plane
-    7400000: Default Take
-    9500000: //RootNode
+  serializedVersion: 14
+  fileIDToRecycleName: {}
   materials:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
   animations:
-    legacyGenerateAnimations: 4
+    generateAnimations: 4
     bakeSimulation: 0
+    splitAnimations: 1
     animationCompression: 1
     animationRotationError: .5
     animationPositionError: .5
@@ -59,7 +26,8 @@ ModelImporter:
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
+    optimizeMesh: 0
+    keepQuads: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
@@ -69,8 +37,6 @@ ModelImporter:
     splitTangentsAcrossUV: 1
     normalImportMode: 0
     tangentImportMode: 1
-  importAnimation: 1
-  copyAvatar: 0
   humanDescription:
     human: []
     skeleton: []
@@ -82,8 +48,6 @@ ModelImporter:
     armStretch: .0500000007
     legStretch: .0500000007
     feetSpacing: 0
-    rootMotionBoneName: 
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  additionalBone: 1
-  animationType: 2
+  createAvatar: 0
   userData: 

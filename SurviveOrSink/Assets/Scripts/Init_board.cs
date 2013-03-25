@@ -5,6 +5,7 @@ using Battleship;
 
 public class Init_board : MonoBehaviour 
 {
+	public GUIStyle quit;
 	public static GameObject[,] gameGrid = new GameObject[10,10];
 	public static GameObject[,] observationGrid = new GameObject[10,10];
 	
@@ -12,10 +13,13 @@ public class Init_board : MonoBehaviour
 	void OnGUI()
 	{
 		var threeQuartersWidth = (int)(3 * Screen.width/4);
-		if( Time.time < 5)
+		if( (int) Time.timeSinceLevelLoad < 5)
 		{
 			GUI.Label(new Rect(threeQuartersWidth,25,100,100), "BEGIN GAME!");
 		}
+		
+		if(GUI.Button(new Rect(Screen.width-100,0,100,20),"",quit))
+			Application.Quit();
 		
 	}
 	
