@@ -167,7 +167,7 @@ public class RandomOpponent : BattleshipPlayer
         print("Shots: " + this.mShots.Count);
     }
 
-    public override void OpponentHit(bool hit)
+    public override void OpponentHit(bool hit,bool sunk)
     {
         if (!mPlayer) return;
         if (hit)

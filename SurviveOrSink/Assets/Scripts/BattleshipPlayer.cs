@@ -97,14 +97,14 @@ public abstract class BattleshipPlayer : MonoBehaviour
     // player = whether to show hits on screen
     abstract public void init(Size boardsize,bool player,params int[] shipsizes);
 
-    public bool SendShot(Point p)
+    public Ship SendShot(Point p)
     {
         foreach (Ship s in this.mShips)
         {
             if (s.testHit(p))
             {
                 this.ShotHit(p);
-                return true;
+                return s;
             }
             else
             {
@@ -112,10 +112,10 @@ public abstract class BattleshipPlayer : MonoBehaviour
             }
         }
 
-        return false;
+        return null;
     }
 
-    abstract public void OpponentHit(bool hit);
+    abstract public void OpponentHit(bool hit,bool sunk);
 
     abstract protected void ShotHit(Point shot);
 

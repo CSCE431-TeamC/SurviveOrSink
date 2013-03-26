@@ -62,7 +62,7 @@ public class Init_board : MonoBehaviour
 					smallCube.renderer.material.color = new Color((float).1, (float).1, (float).1);
 					*/
 				smallCube.renderer.material = emptyBoard;
-				double temp = rows+20-rows*.1;
+				double temp = rows+35-rows*.1;
 				float x_loc = (float)temp;
 				float y_loc = (float)(cols - cols*.1);
 				smallCube.transform.position = new Vector3(x_loc, y_loc, 5);
@@ -74,7 +74,7 @@ public class Init_board : MonoBehaviour
 		
 		//gameGrid[16].renderer.material.color = Color.white;
         var go1 = new GameObject("Player 1");
-        var op1 = go1.AddComponent<RandomOpponent>();
+        var op1 = go1.AddComponent<SmartAI>();
 
         var go2 = new GameObject("Player 2");
         var op2 = go2.AddComponent<RandomOpponent>();

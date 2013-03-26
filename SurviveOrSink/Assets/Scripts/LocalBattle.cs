@@ -97,13 +97,14 @@ public class LocalBattle : MonoBehaviour
             if (opponents[currentplayer].ShotReady) // has taken the shot
             {
                 Point shot = opponents[currentplayer].Shot;
-                if (opponents[1 - currentplayer].SendShot(shot)) // shot hits
+				Ship s = opponents[1 - currentplayer].SendShot(shot);
+                if (s != null) // shot hits
                 {
-                    opponents[currentplayer].OpponentHit(true);
+					opponents[currentplayer].OpponentHit(true,s.IsSunk());
                 }
                 else
                 {
-                    opponents[currentplayer].OpponentHit(false);
+                    opponents[currentplayer].OpponentHit(false,false);
                 }
 
                 opponents[currentplayer].EndTurn();
