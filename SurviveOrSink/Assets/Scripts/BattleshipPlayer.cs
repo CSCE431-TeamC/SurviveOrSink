@@ -12,7 +12,7 @@ public abstract class BattleshipPlayer : MonoBehaviour
 
     int score = 0;
     protected List<Ship> mShips = new List<Ship>();
-    protected List<Point> mShots = new List<Point>();
+    protected List<Point> mShots = new List<Point>();	
 
     protected Size gameSize;
     protected bool gameOver;

@@ -29,7 +29,7 @@ public class SmartAI : BattleshipPlayer
     private bool DEBUG = false;
     private System.Random rand = new System.Random();
 
-    public string Name { get { return "Smart AI"; } }
+    //public string Name { get { return "Smart AI"; } }
 	
 	Material shotSquare = (Material)Resources.Load("Shot", typeof(Material));
     Material pegMaterial = (Material)Resources.Load("Empty", typeof(Material));
@@ -220,25 +220,39 @@ public class SmartAI : BattleshipPlayer
         SunkFromSurroundedHits();
         // look for any HIT/SUNKs that could only belong to one ship
         SunkFromShipConstraints();
-
-        // if we're certain that a ship must be at some point, choose that
-        if (mustExplore.Count > 0)
-        {
-            Point p = mustExplore[0];
-            mustExplore.RemoveAt(0);
-            shot = p;
-        }
-        else
-        {
-            // check for any outstanding HITs that need to be explored
-            var hitPoint = GetHitPoint();
-            if (hitPoint != null)
-			{
-				shot = (Point)hitPoint;
-			}
-            // if there are no outstanding hits, explore empty space
-            else shot = GetSpacePoint();
-        }
+		
+		bool success = false;
+		while(!success)
+		{
+        	// if we're certain that a ship must be at some point, choose that
+	        if (mustExplore.Count > 0)
+	        {
+	            Point p = mustExplore[0];
+	            mustExplore.RemoveAt(0);
+	            shot = p;
+	        }
+	        else
+	        {
+	            // check for any outstanding HITs that need to be explored
+	            var hitPoint = GetHitPoint();
+	            if (hitPoint != null)
+				{
+					shot = (Point)hitPoint;
+				}
+	            // if there are no outstanding hits, explore empty space
+	            else shot = GetSpacePoint();
+	        }
+			
+			success = true;
+            foreach (Point s in this.mShots)
+            {
+                if (s.X == shot.X && s.Y == shot.Y) success = false;
+            }
+		}
+		
+		waitingForRoutine = false;
+        shotReady = true;
+        this.mShots.Add(shot);
     }
 	
 	public override void OpponentHit(bool hit, bool sunk)
