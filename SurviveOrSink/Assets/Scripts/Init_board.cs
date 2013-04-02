@@ -18,8 +18,8 @@ public class Init_board : MonoBehaviour
 			GUI.Label(new Rect(threeQuartersWidth,25,100,100), "BEGIN GAME!");
 		}
 		
-		if(GUI.Button(new Rect(Screen.width-100,0,100,20),"",quit))
-			Application.Quit();
+		if(GUI.Button(new Rect(Screen.width-138,0,138,26),"",quit))
+			Application.LoadLevel("MainMenu");
 		
 	}
 	
