@@ -182,6 +182,8 @@ public class SmartAI : BattleshipPlayer
                 if (!ship.Place(new Point(rand.Next(this.gameSize.Width), rand.Next(this.gameSize.Height)),
                             (ShipOrientation)rand.Next(2), gameSize))
                     continue;
+				
+				remainingShips.Add(ship.Length);
 
                 success = true;
                 foreach (Ship s in mShips)
@@ -255,6 +257,7 @@ public class SmartAI : BattleshipPlayer
         this.mShots.Add(shot);
     }
 	
+	//when we fire at opponent, update board based on what happens
 	public override void OpponentHit(bool hit, bool sunk)
     {
 		if (!mPlayer) return;
@@ -272,7 +275,20 @@ public class SmartAI : BattleshipPlayer
         }
 		
 		int x = shot.X, y = shot.Y;
-        state[x, y] = sunk ? State.SUNK : State.HIT;
+        
+		if(hit)
+		{
+			state[x, y] = State.HIT;
+		}
+		else if (!hit)
+		{
+			state[x, y] = State.MISS;	
+		}
+		
+		if(sunk)
+		{
+			state[x, y] = State.SUNK;
+		}		
 
         // if we know that we just sunk a ship at (x,y), look at adjacent locations to see if we
         // had to have sunk a given ship (i.e. if there's only one remaining ship that has a size
@@ -309,7 +325,7 @@ public class SmartAI : BattleshipPlayer
         if (DEBUG) Console.WriteLine("{0} State.HIT {1}", shot, sunk);
     }
 
-    // when we hit something, update state
+    // when we are hit, update gui
     protected override void ShotHit(Point shot)
     {
 		if (!mPlayer) return;
@@ -319,10 +335,9 @@ public class SmartAI : BattleshipPlayer
         peg.renderer.material.color = Color.red;
         peg.transform.position = new Vector3(shot.X, -peg.transform.localScale.y * 0.6f, 9 - shot.Y);
         peg.transform.localScale -= new Vector3(0.3f, 0.4f, 0.3f);
-		
     }
 
-    // when we miss something, update state
+    // when we are shot at but missed, update gui
     protected override void ShotMiss(Point shot)
     {
 		if (!mPlayer) return;
@@ -333,8 +348,6 @@ public class SmartAI : BattleshipPlayer
         peg.transform.position = new Vector3(shot.X, -peg.transform.localScale.y * 0.3f, 9 - shot.Y);
         peg.transform.localScale -= new Vector3(0.5f, 0.7f, 0.5f);
 		
-        state[shot.X, shot.Y] = State.MISS;
-
         if (DEBUG) Console.WriteLine("{0} miss", shot);
     }
 	
