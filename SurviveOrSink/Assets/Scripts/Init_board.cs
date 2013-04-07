@@ -6,6 +6,7 @@ using Battleship;
 public class Init_board : MonoBehaviour 
 {
 	public GUIStyle quit;
+	public GUIStyle scores;
 	public static GameObject[,] gameGrid = new GameObject[10,10];
 	public static GameObject[,] observationGrid = new GameObject[10,10];
 	
@@ -20,6 +21,8 @@ public class Init_board : MonoBehaviour
 		
 		if(GUI.Button(new Rect(Screen.width-138,0,138,26),"",quit))
 			Application.LoadLevel("MainMenu");
+		if(GUI.Button(new Rect(Screen.width-138,26,138,26),"",scores))
+			Application.LoadLevel("Scoreboard");
 		
 	}
 	

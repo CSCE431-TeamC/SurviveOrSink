@@ -56,9 +56,7 @@ public class MainMenu : MonoBehaviour {
 			//High scores button
 			updateButtonVert();
 			if(GUI.Button(new Rect(buttonHoriz,buttonVert,buttonW,buttonH),"",highscores)) {
-				//Load scoreboard
-				windowID = 2;
-				popupToggle();
+				Application.LoadLevel("Scoreboard");
 			}
 			
 			//Instructions button
