@@ -29,8 +29,8 @@ public class Init_board : MonoBehaviour
 		if (GUILayout.Button("Clear"))
             messages = "";
 		GUILayout.EndScrollView();
-		if (GUILayout.Button("Add More Text"))
-            messages += "\nHere is another line";
+		//if (GUILayout.Button("Add More Text"))
+            //messages += "\nHere is another line";
 		 GUILayout.EndArea ();
 		
 		//scrollPosition = GUI.BeginScrollView(new Rect((Screen.width/2)+125,20,Screen.width/2-125,(Screen.height/2)-20),scrollPosition,new Rect((Screen.width/2)+125,20,Screen.width/2-125,(Screen.height/2)-20));
