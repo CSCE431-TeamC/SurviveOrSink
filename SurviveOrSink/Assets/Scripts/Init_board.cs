@@ -6,6 +6,7 @@ using Battleship;
 public class Init_board : MonoBehaviour 
 {
 	public GUIStyle quit;
+	public GUIStyle scores;
 	public static GameObject[,] gameGrid = new GameObject[10,10];
 	public static GameObject[,] observationGrid = new GameObject[10,10];
 	public Vector2 scrollPosition = new Vector2(100,100);
@@ -32,6 +33,10 @@ public class Init_board : MonoBehaviour
 		//if (GUILayout.Button("Add More Text"))
             //messages += "\nHere is another line";
 		 GUILayout.EndArea ();
+		if(GUI.Button(new Rect(Screen.width-138,0,138,26),"",quit))
+			Application.LoadLevel("MainMenu");
+		if(GUI.Button(new Rect(Screen.width-138,26,138,26),"",scores))
+			Application.LoadLevel("Scoreboard");
 		
 		//scrollPosition = GUI.BeginScrollView(new Rect((Screen.width/2)+125,20,Screen.width/2-125,(Screen.height/2)-20),scrollPosition,new Rect((Screen.width/2)+125,20,Screen.width/2-125,(Screen.height/2)-20));
 		//scrollPosition = GUI.BeginScrollView(new Rect((Screen.width/2)+125,20,(Screen.width/2)-20,(Screen.height/2)-20),scrollPosition,new Rect((Screen.width/2)+125,20,Screen.width/2-125,(Screen.height/2)-20),false,true);

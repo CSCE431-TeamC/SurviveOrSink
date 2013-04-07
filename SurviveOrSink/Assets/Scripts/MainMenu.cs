@@ -34,16 +34,16 @@ public class MainMenu : MonoBehaviour {
 	// Almost everything GUI-related goes here
 	void OnGUI() {
 		//initializing...
-		buttonH = 40;
-		buttonW = 265;
-		buttonSpace = 10;
+		buttonH = 51;
+		buttonW = 276;
+		buttonSpace = 2;
 		buttonHoriz = (int) Screen.width/2-buttonW/2;
 		buttonVert = 100;
 		rectPopup = new Rect((int)Screen.width/2-480,80,960,520);
 		GUI.skin = mySkin;
 		
 		//Game Logo
-		GUI.Box(new Rect(0,10,Screen.width,73),logo);
+		GUI.Box(new Rect(0,10,Screen.width,93),logo);
 		
 		if(!showPopup){
 			//Play button
@@ -56,9 +56,7 @@ public class MainMenu : MonoBehaviour {
 			//High scores button
 			updateButtonVert();
 			if(GUI.Button(new Rect(buttonHoriz,buttonVert,buttonW,buttonH),"",highscores)) {
-				//Load scoreboard
-				windowID = 2;
-				popupToggle();
+				Application.LoadLevel("Scoreboard");
 			}
 			
 			//Instructions button
