@@ -164,7 +164,7 @@ public class RandomOpponent : BattleshipPlayer
         waitingForRoutine = false;
         shotReady = true;
         this.mShots.Add(shot);
-        print("Shots: " + this.mShots.Count);
+        //print("Shots: " + this.mShots.Count);
     }
 
     public override void OpponentHit(bool hit,bool sunk)
