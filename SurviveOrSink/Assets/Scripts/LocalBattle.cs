@@ -114,6 +114,7 @@ public class LocalBattle : MonoBehaviour
                 if (opponents[currentplayer].ShipsSunk) // game over
                 {
                     print("Player " + currentplayer + " wins!");
+					Init_board.messages+="\nPlayer " + currentplayer + " wins!";
                     opponents[currentplayer].GameWon();
                     opponents[1 - currentplayer].GameLost();
                     gameOver = true;

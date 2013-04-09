@@ -10,7 +10,7 @@ public class Init_board : MonoBehaviour
 	public static GameObject[,] gameGrid = new GameObject[10,10];
 	public static GameObject[,] observationGrid = new GameObject[10,10];
 	public Vector2 scrollPosition = new Vector2(100,100);
-	public static string messages = "Begin Game!";//\nHi\nHello\n\nHello\n\n\n\nHello\n\n\nHello\n\n\n\nHit at A3\n\n\nThe End";
+	public static string messages = "Begin Game!";
 	
 	void OnGUI()
 	{
@@ -22,10 +22,10 @@ public class Init_board : MonoBehaviour
 		
 		if(GUI.Button(new Rect(Screen.width-100,0,100,20),"",quit))
 			Application.Quit();
-		GUILayout.BeginArea(new Rect((Screen.width/2)+125,20,Screen.width/2-125,(Screen.height/2)-20));
+		GUILayout.BeginArea(new Rect((Screen.width/2)+225,20,(Screen.width/2)-225,(Screen.height/2)-20));
 		//GUILayout.BeginArea(Rect((Screen.width/2)+125,20,Screen.width/2-125,(Screen.height/2)-20),"This is the text to be displayed");
 		//GUILayout.BeginArea(new Rect (100,100,100,100));
-		scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(Screen.width/2-125), GUILayout.Height((Screen.height/2)-20));
+		scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width((Screen.width/2)-225), GUILayout.Height((Screen.height/2)-20));
 		GUILayout.Label(messages);
 		//scrollPosition.y=1000000;//keeps the scroll at the bottom of the screen
 		if (GUILayout.Button("Clear"))
