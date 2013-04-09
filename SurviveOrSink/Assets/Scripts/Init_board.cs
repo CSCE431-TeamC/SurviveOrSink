@@ -10,7 +10,7 @@ public class Init_board : MonoBehaviour
 	public static GameObject[,] gameGrid = new GameObject[10,10];
 	public static GameObject[,] observationGrid = new GameObject[10,10];
 	public Vector2 scrollPosition = new Vector2(100,100);
-	static string messages = "Begin Game!\nHi\nHello\n\nHello\n\n\n\nHello\n\n\nHello\n\n\n\nHit at A3\n\n\nThe End";
+	public static string messages = "Begin Game!";//\nHi\nHello\n\nHello\n\n\n\nHello\n\n\nHello\n\n\n\nHit at A3\n\n\nThe End";
 	
 	void OnGUI()
 	{
@@ -27,6 +27,7 @@ public class Init_board : MonoBehaviour
 		//GUILayout.BeginArea(new Rect (100,100,100,100));
 		scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(Screen.width/2-125), GUILayout.Height((Screen.height/2)-20));
 		GUILayout.Label(messages);
+		//scrollPosition.y=1000000;//keeps the scroll at the bottom of the screen
 		if (GUILayout.Button("Clear"))
             messages = "";
 		GUILayout.EndScrollView();
