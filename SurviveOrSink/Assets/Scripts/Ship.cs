@@ -7,9 +7,9 @@
     public class Ship
     {
         private bool isPlaced = false;
-        private Point mLocation;
+        protected Point mLocation;
 		private bool[] hitMarkers;
-        private ShipOrientation mOrientation;
+        protected ShipOrientation mOrientation;
         private int mLength;
         private ShipType mType;
 
@@ -217,6 +217,11 @@
 				if(!hit) return false;
 			}
 
+            return true;
+        }
+
+        public virtual bool LoadModel()
+        {
             return true;
         }
     }

@@ -203,6 +203,7 @@ public class SmartAI : BattleshipPlayer
                 {
                     Init_board.gameGrid[p.X, 9 - p.Y].renderer.material.color = Color.green;
                 }
+                ship.LoadModel();
             }
 
             mShips[curship] = ship;
