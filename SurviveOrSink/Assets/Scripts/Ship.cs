@@ -224,5 +224,12 @@
         {
             return true;
         }
+		
+		public ShipType getShipType() {
+		
+			return mType;
+			
+		}
+		
     }
 }
