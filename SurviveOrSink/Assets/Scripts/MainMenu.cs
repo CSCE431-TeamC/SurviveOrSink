@@ -10,6 +10,7 @@ public class MainMenu : MonoBehaviour {
 	public GUIStyle highscores;
 	public GUIStyle instructions;
 	public GUIStyle options;
+	public GUIStyle ships;
 	public GUIStyle credits;
 	public GUIStyle quit;
 	public GUIStyle back;
@@ -70,6 +71,13 @@ public class MainMenu : MonoBehaviour {
 			updateButtonVert();
 			if(GUI.Button(new Rect(buttonHoriz,buttonVert,buttonW,buttonH),"",options)) {
 				//Load options
+				windowID = 2;
+				popupToggle();
+			}
+			
+			//Ship Models button
+			updateButtonVert();
+			if(GUI.Button(new Rect(buttonHoriz,buttonVert,buttonW,buttonH),"",ships)) {
 				windowID = 2;
 				popupToggle();
 			}

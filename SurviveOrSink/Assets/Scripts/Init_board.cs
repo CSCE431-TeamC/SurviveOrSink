@@ -5,8 +5,18 @@ using Battleship;
 
 public class Init_board : MonoBehaviour 
 {
+	//images for links
+	public GUIStyle back;
 	public GUIStyle quit;
 	public GUIStyle scores;
+	public GUIStyle instructions;
+	public GUIStyle menuPopup;
+	public GUIStyle wipPopup;
+	
+	//used in popup window
+	private bool showPopup = false;
+	private Rect rectPopup;			//rectangle for popup window
+	
 	public static GameObject[,] gameGrid = new GameObject[10,10];
 	public static GameObject[,] observationGrid = new GameObject[10,10];
 	public Vector2 scrollPosition = new Vector2(100,100);
@@ -20,8 +30,6 @@ public class Init_board : MonoBehaviour
 			GUI.Label(new Rect(threeQuartersWidth,25,100,100), "BEGIN GAME!");
 		}
 		
-		if(GUI.Button(new Rect(Screen.width-100,0,100,20),"",quit))
-			Application.Quit();
 		GUILayout.BeginArea(new Rect((Screen.width/2)+225,20,(Screen.width/2)-225,(Screen.height/2)-20));
 		//GUILayout.BeginArea(Rect((Screen.width/2)+125,20,Screen.width/2-125,(Screen.height/2)-20),"This is the text to be displayed");
 		//GUILayout.BeginArea(new Rect (100,100,100,100));
@@ -34,15 +42,18 @@ public class Init_board : MonoBehaviour
 		//if (GUILayout.Button("Add More Text"))
             //messages += "\nHere is another line";
 		 GUILayout.EndArea ();
-		if(GUI.Button(new Rect(Screen.width-138,0,138,26),"",quit))
-			Application.LoadLevel("MainMenu");
-		if(GUI.Button(new Rect(Screen.width-138,26,138,26),"",scores))
-			Application.LoadLevel("Scoreboard");
 		
 		//scrollPosition = GUI.BeginScrollView(new Rect((Screen.width/2)+125,20,Screen.width/2-125,(Screen.height/2)-20),scrollPosition,new Rect((Screen.width/2)+125,20,Screen.width/2-125,(Screen.height/2)-20));
 		//scrollPosition = GUI.BeginScrollView(new Rect((Screen.width/2)+125,20,(Screen.width/2)-20,(Screen.height/2)-20),scrollPosition,new Rect((Screen.width/2)+125,20,Screen.width/2-125,(Screen.height/2)-20),false,true);
 		//GUI.Label(new Rect((Screen.width/2)+125,20,Screen.width/2-125,(Screen.height/2)-20), messages);
 		//GUI.EndScrollView();
+		if (Event.current.Equals(Event.KeyboardEvent("escape")))
+			popupToggle();
+		rectPopup = new Rect((int)Screen.width/2-480,80,960,520);
+		if (showPopup == true) {
+			rectPopup = GUI.Window(0, rectPopup, PopupWindow, "");
+			GUI.FocusWindow(0);
+		}
 	}
 	
 	// Use this for initialization
@@ -119,5 +130,46 @@ public class Init_board : MonoBehaviour
 	public GameObject[,] getGameGrid()
 	{
 		return gameGrid;	
+	}
+	
+	//GUI - Separate window that pops up
+	private void PopupWindow(int windowID) {
+		//used in determining button size & position
+		int buttonH = 51;						//height of button
+		int buttonW = 276;						//width of button
+		int buttonSpace = 15;					//space between buttons
+		int buttonHoriz = (int) (960-276)/2;	//x-coordinate of button
+		int buttonVert = 100;					//y-coordinate of button
+		
+		GUI.Box(new Rect(0,0,960,520),"",menuPopup);
+		
+		//High scores button
+		if (GUI.Button(new Rect(buttonHoriz,buttonVert,buttonW,buttonH),"",scores)) {
+			Application.LoadLevel("Scoreboard");
+		}
+		
+		//Instructions button
+		buttonVert += (buttonH+buttonSpace);
+		if (GUI.Button(new Rect(buttonHoriz,buttonVert,buttonW,buttonH),"",instructions)) {
+			GUI.Box(new Rect(0,0,960,520),"",wipPopup); //currently gets covered by menuPopup - fix this
+		}
+		
+		//Quit button
+		buttonVert += (buttonH+buttonSpace);
+		if (GUI.Button(new Rect(buttonHoriz,buttonVert,buttonW,buttonH),"",quit)) {
+			Application.LoadLevel("MainMenu");
+		}
+		
+		//Back button
+		if (GUI.Button(new Rect(850,460,92,37),"",back)) {
+			popupToggle();
+		}			
+	}
+	//GUI - toggles popup window on/off
+	private void popupToggle() {
+		if (showPopup == true)
+			showPopup = false;
+		else
+			showPopup = true;
 	}
 }
