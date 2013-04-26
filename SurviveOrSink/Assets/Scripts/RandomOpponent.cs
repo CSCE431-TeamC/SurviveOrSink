@@ -132,10 +132,10 @@ public class RandomOpponent : BattleshipPlayer
 
             if (mPlayer)
             {
-                foreach (Point p in ship.GetAllLocations())
+                /*foreach (Point p in ship.GetAllLocations())
                 {
                     Init_board.gameGrid[p.X, p.Y].renderer.material.color = Color.green;
-                }
+                }*/
                 ship.LoadModel();
                 ship.ShowModel();
             }
@@ -169,18 +169,19 @@ public class RandomOpponent : BattleshipPlayer
 
     public override void OpponentHit(bool hit,bool sunk)
     {
+        Material hitSquare = (Material)Resources.Load("hitSquare", typeof(Material));
+        Material missSquare = (Material)Resources.Load("missSquare", typeof(Material));
+
         if (!mPlayer) return;
         if (hit)
         {
-            Init_board.observationGrid[shot.X, shot.Y].renderer.material = shotSquare;
-            Init_board.observationGrid[shot.X, shot.Y].renderer.material.color = Color.red;
-			Init_board.messages = Init_board.messages+="\nSuccessful! Hit a ship at: "+shot;
+            Init_board.observationGrid[shot.X, shot.Y].renderer.material = hitSquare;
+            Init_board.messages += "\nSuccessful! Hit a ship at: " + shot;
         }
         else
         {
-            Init_board.observationGrid[shot.X, shot.Y].renderer.material = shotSquare;
-            Init_board.observationGrid[shot.X, shot.Y].renderer.material.color = Color.white;
-			Init_board.messages = Init_board.messages+="\nMissed! Shot at: "+shot;
+            Init_board.observationGrid[shot.X, shot.Y].renderer.material = missSquare;
+            Init_board.messages += "\nMissed! Shot at: " + shot;
         }
     }
 
