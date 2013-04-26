@@ -7,11 +7,13 @@ using Battleship;
 public class HumanPlayer : BattleshipPlayer
 {
     public static System.Random rand = new System.Random();
-    Material shotSquare = (Material)Resources.Load("Shot", typeof(Material));
     Material pegMaterial = (Material)Resources.Load("Empty", typeof(Material));
 
     Ray mRay;
+    Ray eRay;
     Point curRayCast = new Point();
+    bool mHighlighted = false;
+    bool eHighlighted = false;
 
     ShipOrientation placeOrientation = ShipOrientation.Horizontal;
 
@@ -68,6 +70,27 @@ public class HumanPlayer : BattleshipPlayer
         if (!ready) return;
 
         mRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        eRay = GameObject.Find("Right Camera").camera.ScreenPointToRay(Input.mousePosition);
+
+        if (mHighlighted)
+        {
+            GameObject[] gridblocks = GameObject.FindGameObjectsWithTag("BoardPiece");
+            foreach (GameObject block in gridblocks)
+            {
+                block.renderer.material.color = Color.white;
+            }
+            mHighlighted = false;
+        }
+        if (eHighlighted)
+        {
+            GameObject[] gridblocks = GameObject.FindGameObjectsWithTag("EnemyBoardPiece");
+            foreach (GameObject block in gridblocks)
+            {
+                if(block.renderer.material.color != Color.red)
+                    block.renderer.material.color = Color.white;
+            }
+            eHighlighted = false;
+        }
 
         if (!shipsReady)
         {
@@ -138,8 +161,7 @@ public class HumanPlayer : BattleshipPlayer
                     break;
                 }
 
-                Point cast = getBoardRayCast();
-                Debug.Log("" + cast.X + "," + cast.Y);
+                Point cast = getBoardRayCast(false, Color.white);
 
                 if (ship.Place(cast, placeOrientation, gameSize))
                 {
@@ -173,18 +195,52 @@ public class HumanPlayer : BattleshipPlayer
         curship++;
     }
 
-    public Point getBoardRayCast()
+    public Point getBoardRayCast(bool highlight, Color col)
     {
-        Point cast = new Point(-1,-1);
+        Point cast = new Point(-1, -1);
 
-        RaycastHit[] hits = Physics.RaycastAll(mRay,200,1 << LayerMask.NameToLayer("BoardPiece"));
+        RaycastHit hit;
 
-        foreach (RaycastHit hit in hits)
+        if (Physics.Raycast(mRay, out hit, 200, 1 << LayerMask.NameToLayer("BoardPiece")))
         {
             Renderer renderer = hit.collider.renderer;
 
             if (renderer)
             {
+                if (highlight)
+                {
+                    renderer.material.color = col;
+                    mHighlighted = true;
+                }
+                string[] split = hit.collider.name.Split(new Char[] { ',' });
+                if (split.Length == 2)
+                {
+                    cast.X = Convert.ToInt32(split[0]);
+                    cast.Y = Convert.ToInt32(split[1]);
+                }
+            }
+        }
+
+        return cast;
+    }
+
+    public Point getEnemyBoardRayCast(bool highlight, Color col)
+    {
+        Point cast = new Point(-1, -1);
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(eRay, out hit, 200, 1 << LayerMask.NameToLayer("EnemyBoardPiece")))
+        {
+            Renderer renderer = hit.collider.renderer;
+
+            if (renderer)
+            {
+                if (highlight)
+                {
+                    renderer.material.color = col;
+                    eHighlighted = true;
+                }
                 string[] split = hit.collider.name.Split(new Char[] { ',' });
                 if (split.Length == 2)
                 {
@@ -199,17 +255,25 @@ public class HumanPlayer : BattleshipPlayer
 
     public System.Collections.IEnumerator GetShot()
     {
-        yield return null;// return new WaitForSeconds(0.5f);
-
         bool success = false;
         while (!success)
         {
-            shot = new Point(rand.Next(this.gameSize.Width), rand.Next(this.gameSize.Height));
+            yield return null;
 
-            success = true;
-            foreach (Point s in this.mShots)
+            Point cast = getEnemyBoardRayCast(true, Color.green);
+
+            if (Input.GetMouseButtonDown(0))
             {
-                if (s.X == shot.X && s.Y == shot.Y) success = false;
+                shot = cast;
+
+                if (shot.X >= 0 && shot.X < 10 && shot.Y >= 0 && shot.Y < 10)
+                {
+                    success = true;
+                    foreach (Point s in this.mShots)
+                    {
+                        if (s.X == shot.X && s.Y == shot.Y) success = false;
+                    }
+                }
             }
         }
 
@@ -221,17 +285,18 @@ public class HumanPlayer : BattleshipPlayer
 
     public override void OpponentHit(bool hit, bool sunk)
     {
+        Material hitSquare = (Material)Resources.Load("hitSquare", typeof(Material));
+        Material missSquare = (Material)Resources.Load("missSquare", typeof(Material));
+
         if (!mPlayer) return;
         if (hit)
         {
-            Init_board.observationGrid[shot.X, shot.Y].renderer.material = shotSquare;
-            Init_board.observationGrid[shot.X, shot.Y].renderer.material.color = Color.red;
+            Init_board.observationGrid[shot.X, shot.Y].renderer.material = hitSquare;
             Init_board.messages += "\nSuccessful! Hit a ship at: " + shot;
         }
         else
         {
-            Init_board.observationGrid[shot.X, shot.Y].renderer.material = shotSquare;
-            Init_board.observationGrid[shot.X, shot.Y].renderer.material.color = Color.white;
+            Init_board.observationGrid[shot.X, shot.Y].renderer.material = missSquare;
             Init_board.messages += "\nMissed! Shot at: " + shot;
         }
     }

@@ -58,8 +58,9 @@ public class Init_board : MonoBehaviour
 	
 	// Use this for initialization
 	void Start ()
-	{
-		Material emptyBoard = (Material)Resources.Load("Empty", typeof(Material));
+    {
+        Material emptyBoard_transparent = (Material)Resources.Load("Empty_Transparent", typeof(Material));
+        Material emptyBoard_solid = (Material)Resources.Load("Empty_Solid", typeof(Material));
 		
 		//draw grids using individual cubes and store in dictionary (NxN)
 		for(int rows = 0; rows < 10; ++rows)
@@ -69,18 +70,11 @@ public class Init_board : MonoBehaviour
 				
 				//gameGrid
 				GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-				cube.renderer.material = emptyBoard;
-				/*
-				if(rows % 2 == 0 && cols % 2 == 1)
-					cube.renderer.material.color = new Color((float).25, (float).25, (float).25);
-				else if(rows % 2 == 1 && cols % 2 == 0)
-					cube.renderer.material.color = new Color((float).25, (float).25, (float).25);
-				else
-					cube.renderer.material.color = new Color((float).1, (float).1, (float).1);
-					*/
+                cube.renderer.material = emptyBoard_transparent;
 				cube.transform.position = new Vector3(rows, (float)-1, cols);
 				cube.transform.localScale += new Vector3(0, (float)-.5, 0);
                 cube.layer = LayerMask.NameToLayer("BoardPiece");
+                cube.tag = "BoardPiece";
                 cube.name = "" + rows + "," + cols;
 				gameGrid[rows,cols] = cube;
 				
@@ -88,15 +82,11 @@ public class Init_board : MonoBehaviour
 				
 				//observationGrid
 				GameObject smallCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-				/*
-				if(rows % 2 == 0 && cols % 2 == 1)
-					smallCube.renderer.material.color = new Color((float).25, (float).25, (float).25);
-				else if(rows % 2 == 1 && cols % 2 == 0)
-					smallCube.renderer.material.color = new Color((float).25, (float).25, (float).25);
-				else
-					smallCube.renderer.material.color = new Color((float).1, (float).1, (float).1);
-					*/
-				smallCube.renderer.material = emptyBoard;
+                smallCube.renderer.material = emptyBoard_solid;
+                smallCube.renderer.material.color = Color.white;
+                smallCube.layer = LayerMask.NameToLayer("EnemyBoardPiece");
+                smallCube.tag = "EnemyBoardPiece";
+                smallCube.name = "" + rows + "," + cols;
 				double temp = rows+35-rows*.1;
 				float x_loc = (float)temp;
 				float y_loc = (float)(cols - cols*.1);
