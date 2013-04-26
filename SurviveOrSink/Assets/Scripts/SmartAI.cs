@@ -332,29 +332,30 @@ public class SmartAI : BattleshipPlayer
     // when we are hit, update gui
     protected override void ShotHit(Point shot)
     {
-		if (!mPlayer) return;
-        GameObject peg = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-        peg.renderer.material = pegMaterial;
-
-        peg.renderer.material.color = Color.red;
-        peg.transform.position = new Vector3(shot.X, -peg.transform.localScale.y * 0.6f, shot.Y);
-        peg.transform.localScale -= new Vector3(0.3f, 0.4f, 0.3f);
-		//Init_board.messages = Init_board.messages+="\n Opponent hit a ship at: "+shot;//opponent is Random AI
+        if (!mPlayer) return;
+        ParticleSystem fire = ParticleSystem.Instantiate(Resources.Load("Fire1"), new Vector3(shot.X, -0.75f, shot.Y), Quaternion.identity) as ParticleSystem;
     }
 
     // when we are shot at but missed, update gui
     protected override void ShotMiss(Point shot)
     {
-		if (!mPlayer) return;
-        GameObject peg = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-        peg.renderer.material = pegMaterial;
+        if (!mPlayer) return;
 
-        peg.renderer.material.color = Color.white;
-        peg.transform.position = new Vector3(shot.X, -peg.transform.localScale.y * 0.3f, shot.Y);
-        peg.transform.localScale -= new Vector3(0.5f, 0.7f, 0.5f);
-		
-        if (DEBUG) Console.WriteLine("{0} miss", shot);
-		//Init_board.messages = Init_board.messages+="\n Opponent missed and shot at: "+shot;//opponent is Random AI
+        GameObject[] blocks = GameObject.FindGameObjectsWithTag("BoardPiece");
+        foreach (GameObject block in blocks)
+        {
+            string[] split = block.name.Split(new Char[] { ',' });
+            if (split.Length == 2)
+            {
+                if (Convert.ToInt32(split[0]) == shot.X && Convert.ToInt32(split[1]) == shot.Y)
+                {
+                    block.renderer.material.color = Color.black;
+                    break;
+                }
+            }
+        }
+
+        ParticleSystem splash = ParticleSystem.Instantiate(Resources.Load("Splash"), new Vector3(shot.X, -1.0f, shot.Y), Quaternion.identity) as ParticleSystem;
     }
 	
     public override void GameWon()

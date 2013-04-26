@@ -106,11 +106,8 @@ public abstract class BattleshipPlayer : MonoBehaviour
                 this.ShotHit(p);
                 return s;
             }
-            else
-            {
-                this.ShotMiss(p);
-            }
         }
+        this.ShotMiss(p);
 
         return null;
     }
