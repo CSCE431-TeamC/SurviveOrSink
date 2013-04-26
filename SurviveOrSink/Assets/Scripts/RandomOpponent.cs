@@ -134,12 +134,11 @@ public class RandomOpponent : BattleshipPlayer
             {
                 foreach (Point p in ship.GetAllLocations())
                 {
-                    Init_board.gameGrid[p.X, 9 - p.Y].renderer.material.color = Color.green;
+                    Init_board.gameGrid[p.X, p.Y].renderer.material.color = Color.green;
                 }
                 ship.LoadModel();
+                ship.ShowModel();
             }
-
-            mShips[curship] = ship;
         }
 
         waitingForRoutine = false;
@@ -173,14 +172,14 @@ public class RandomOpponent : BattleshipPlayer
         if (!mPlayer) return;
         if (hit)
         {
-            Init_board.observationGrid[shot.X, 9 - shot.Y].renderer.material = shotSquare;
-            Init_board.observationGrid[shot.X, 9 - shot.Y].renderer.material.color = Color.red;
+            Init_board.observationGrid[shot.X, shot.Y].renderer.material = shotSquare;
+            Init_board.observationGrid[shot.X, shot.Y].renderer.material.color = Color.red;
 			Init_board.messages = Init_board.messages+="\nSuccessful! Hit a ship at: "+shot;
         }
         else
         {
-            Init_board.observationGrid[shot.X, 9 - shot.Y].renderer.material = shotSquare;
-            Init_board.observationGrid[shot.X, 9 - shot.Y].renderer.material.color = Color.white;
+            Init_board.observationGrid[shot.X, shot.Y].renderer.material = shotSquare;
+            Init_board.observationGrid[shot.X, shot.Y].renderer.material.color = Color.white;
 			Init_board.messages = Init_board.messages+="\nMissed! Shot at: "+shot;
         }
     }
@@ -192,7 +191,7 @@ public class RandomOpponent : BattleshipPlayer
         peg.renderer.material = pegMaterial;
 
         peg.renderer.material.color = Color.red;
-        peg.transform.position = new Vector3(shot.X, -peg.transform.localScale.y * 0.6f, 9 - shot.Y);
+        peg.transform.position = new Vector3(shot.X, -peg.transform.localScale.y * 0.6f, shot.Y);
         peg.transform.localScale -= new Vector3(0.3f, 0.4f, 0.3f);
 		//Init_board.messages = Init_board.messages+="\n Opponent hit a ship at: "+shot;//Smart AI
     }
@@ -204,7 +203,7 @@ public class RandomOpponent : BattleshipPlayer
         peg.renderer.material = pegMaterial;
 
         peg.renderer.material.color = Color.white;
-        peg.transform.position = new Vector3(shot.X, -peg.transform.localScale.y * 0.3f, 9 - shot.Y);
+        peg.transform.position = new Vector3(shot.X, -peg.transform.localScale.y * 0.3f, shot.Y);
         peg.transform.localScale -= new Vector3(0.5f, 0.7f, 0.5f);
 		//Init_board.messages = Init_board.messages+="\n Opponent missed shot at: "+shot;//Smart AI
     }

@@ -224,5 +224,12 @@
         {
             return true;
         }
+
+        public virtual void HideModel()
+        {
+        }
+        public virtual void ShowModel()
+        {
+        }
     }
 }

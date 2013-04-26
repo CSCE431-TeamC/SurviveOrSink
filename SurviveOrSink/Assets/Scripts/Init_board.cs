@@ -80,6 +80,8 @@ public class Init_board : MonoBehaviour
 					*/
 				cube.transform.position = new Vector3(rows, (float)-1, cols);
 				cube.transform.localScale += new Vector3(0, (float)-.5, 0);
+                cube.layer = LayerMask.NameToLayer("BoardPiece");
+                cube.name = "" + rows + "," + cols;
 				gameGrid[rows,cols] = cube;
 				
 				
@@ -107,7 +109,7 @@ public class Init_board : MonoBehaviour
 		
 		//gameGrid[16].renderer.material.color = Color.white;
         var go1 = new GameObject("Player 1");
-        var op1 = go1.AddComponent<SmartAI>();
+        var op1 = go1.AddComponent<HumanPlayer>();
 
         var go2 = new GameObject("Player 2");
         var op2 = go2.AddComponent<RandomOpponent>();
