@@ -5,6 +5,7 @@ public class Scoreboard : MonoBehaviour {
 	public GUISkin mySkin;
 	public Texture2D scoreboard_title;
 	public GUIStyle background;
+	private bool alreadyChecked = false;
 	
 	//images for links
 	public GUIStyle quit;
@@ -17,6 +18,7 @@ public class Scoreboard : MonoBehaviour {
 	private int boxSpace;	//space between buttons
 	private int boxHoriz;	//x-coordinate of button
 	private int boxVert;	//y-coordinate of button
+	
 	
 	void OnGUI() {
 		//initializing...
@@ -34,20 +36,26 @@ public class Scoreboard : MonoBehaviour {
 		GUI.Box(new Rect(Screen.width/2-480,105,960,520),"",background);
 		
 		//High Scores
-		GUI.Box(new Rect(boxHoriz/2,boxVert,boxW,boxH), PlayerPrefs.GetString("first", "Player"));
+		GUI.Box(new Rect(boxHoriz/2,boxVert,boxW,boxH), PlayerPrefs.GetString("firstN", "Player"));
 		GUI.Box(new Rect(boxHoriz*(float)1.5,boxVert,boxW,boxH), PlayerPrefs.GetInt("first", 0).ToString());
 		updateBoxVert();
-		GUI.Box(new Rect(boxHoriz/2,boxVert,boxW,boxH), PlayerPrefs.GetString("second", "Player"));
+		GUI.Box(new Rect(boxHoriz/2,boxVert,boxW,boxH), PlayerPrefs.GetString("secondN", "Player"));
 		GUI.Box(new Rect(boxHoriz*(float)1.5,boxVert,boxW,boxH), PlayerPrefs.GetInt("second", 0).ToString());
 		updateBoxVert();
-		GUI.Box(new Rect(boxHoriz/2,boxVert,boxW,boxH), PlayerPrefs.GetString("third", "Player"));
+		GUI.Box(new Rect(boxHoriz/2,boxVert,boxW,boxH), PlayerPrefs.GetString("thirdN", "Player"));
 		GUI.Box(new Rect(boxHoriz*(float)1.5,boxVert,boxW,boxH), PlayerPrefs.GetInt("third", 0).ToString());
 		updateBoxVert();
-		GUI.Box(new Rect(boxHoriz/2,boxVert,boxW,boxH), PlayerPrefs.GetString("fourth", "Player"));
+		GUI.Box(new Rect(boxHoriz/2,boxVert,boxW,boxH), PlayerPrefs.GetString("fourthN", "Player"));
 		GUI.Box(new Rect(boxHoriz*(float)1.5,boxVert,boxW,boxH), PlayerPrefs.GetInt("fourth", 0).ToString());
 		updateBoxVert();
-		GUI.Box(new Rect(boxHoriz/2,boxVert,boxW,boxH), PlayerPrefs.GetString("fifth", "Player"));
+		GUI.Box(new Rect(boxHoriz/2,boxVert,boxW,boxH), PlayerPrefs.GetString("fifthN", "Player"));
 		GUI.Box(new Rect(boxHoriz*(float)1.5,boxVert,boxW,boxH), PlayerPrefs.GetInt("fifth", 0).ToString());
+		
+		//Update scores if necessary
+		if (LocalBattle.gameOver && PlayerPrefs.GetInt("currentplayer") >= PlayerPrefs.GetInt("fifth") && alreadyChecked == false) {
+			scoreUpdate();
+			alreadyChecked = true;
+		}
 		
 		//Links
 		if(GUI.Button(new Rect(Screen.width/2-138,550,276,51),"",clear)) {
@@ -66,4 +74,63 @@ public class Scoreboard : MonoBehaviour {
 	private void updateBoxVert() {
 		boxVert += (boxH+boxSpace);
 	}
+	
+	//Update scoreboard
+	void scoreUpdate() 
+	{
+		int score = PlayerPrefs.GetInt("currentplayer");
+		
+		if (score >= PlayerPrefs.GetInt("first") ) 
+		{
+			PlayerPrefs.SetString("fifthN",PlayerPrefs.GetString("fourthN"));
+			PlayerPrefs.SetString("fourthN",PlayerPrefs.GetString("thirdN"));
+			PlayerPrefs.SetString("thirdN",PlayerPrefs.GetString("secondN"));
+			PlayerPrefs.SetString("secondN",PlayerPrefs.GetString("firstN"));
+			
+			PlayerPrefs.SetInt("fifth",PlayerPrefs.GetInt("fourth"));
+			PlayerPrefs.SetInt("fourth",PlayerPrefs.GetInt("third"));
+			PlayerPrefs.SetInt("third", PlayerPrefs.GetInt("second"));
+			PlayerPrefs.SetInt("second",PlayerPrefs.GetInt("first"));
+			
+			PlayerPrefs.SetString("firstN",MainMenu.playerName);
+			PlayerPrefs.SetInt("first",score);
+		}	
+		else if (score >= PlayerPrefs.GetInt("second")) 
+		{
+			PlayerPrefs.SetString("fifthN",PlayerPrefs.GetString("fourthN"));
+			PlayerPrefs.SetString("fourthN",PlayerPrefs.GetString("thirdN"));
+			PlayerPrefs.SetString("thirdN",PlayerPrefs.GetString("secondN"));
+			
+			PlayerPrefs.SetInt("fifth",PlayerPrefs.GetInt("fourth"));
+			PlayerPrefs.SetInt("fourth",PlayerPrefs.GetInt("third"));
+			PlayerPrefs.SetInt("third", PlayerPrefs.GetInt("second"));
+			
+			PlayerPrefs.SetString("secondN",MainMenu.playerName);
+			PlayerPrefs.SetInt("second",score);
+		}	
+		else if (score >= PlayerPrefs.GetInt("third")) 
+		{			
+			PlayerPrefs.SetString("fifthN",PlayerPrefs.GetString("fourthN"));
+			PlayerPrefs.SetString("fourthN",PlayerPrefs.GetString("thirdN"));
+			
+			PlayerPrefs.SetInt("fifth",PlayerPrefs.GetInt("fourth"));
+			PlayerPrefs.SetInt("fourth",PlayerPrefs.GetInt("third"));
+			
+			PlayerPrefs.SetString("thirdN",MainMenu.playerName);
+			PlayerPrefs.SetInt("third",score);
+		}
+		else if (score >= PlayerPrefs.GetInt("fourth") ) 
+		{
+			PlayerPrefs.SetString("fifthN",PlayerPrefs.GetString("fourthN"));		
+			PlayerPrefs.SetInt("fifth",PlayerPrefs.GetInt("fourth"));	
+			
+			PlayerPrefs.SetString("fourthN",MainMenu.playerName);
+			PlayerPrefs.SetInt("fourth",score);
+		}
+		else if (score >= PlayerPrefs.GetInt("fifth")) 
+		{
+			PlayerPrefs.SetString("fifthN",MainMenu.playerName);
+			PlayerPrefs.SetInt("fifth",score);
+		}
+	}	
 }

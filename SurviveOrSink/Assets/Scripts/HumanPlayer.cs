@@ -292,11 +292,13 @@ public class HumanPlayer : BattleshipPlayer
         {
             Init_board.observationGrid[shot.X, shot.Y].renderer.material = hitSquare;
             Init_board.messages += "\nSuccessful! Hit a ship at: " + shot;
+			Init_board.score += 10;
         }
         else
         {
             Init_board.observationGrid[shot.X, shot.Y].renderer.material = missSquare;
             Init_board.messages += "\nMissed! Shot at: " + shot;
+			Init_board.score--;
         }
     }
 

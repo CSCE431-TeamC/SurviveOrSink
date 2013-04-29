@@ -15,9 +15,12 @@ public class MainMenu : MonoBehaviour {
 	public GUIStyle quit;
 	public GUIStyle back;
 	
-	//used in popup window
+	//used in popup windows
 	private bool showPopup = false;	//toggles popup window for various submenus
 	private Rect rectPopup;			//rectangle for popup window
+	private Rect namePopup;			//rectangle for name prompt
+	public static string playerName;
+	public string pName;
 	private int windowID = -1;
 	
 	//images for popup windows
@@ -41,6 +44,7 @@ public class MainMenu : MonoBehaviour {
 		buttonHoriz = (int) Screen.width/2-buttonW/2;
 		buttonVert = 100;
 		rectPopup = new Rect((int)Screen.width/2-480,80,960,520);
+		namePopup = new Rect((int)Screen.width/2-150,(int)Screen.height/2-50,300,100);
 		GUI.skin = mySkin;
 		
 		//Game Logo
@@ -48,11 +52,13 @@ public class MainMenu : MonoBehaviour {
 		
 		if(!showPopup){
 			//Play button
-			if(GUI.Button(new Rect(buttonHoriz,buttonVert,buttonW,buttonH),"",play))
-				Application.LoadLevel("Game");
+			if(GUI.Button(new Rect(buttonHoriz,buttonVert,buttonW,buttonH),"",play)) {
+				windowID = 3;
+				popupToggle();
 			/**************
 			Eventually offer options for play: Single Player, Multiplayer, Custom Game
 			****************/
+			}
 	
 			//High scores button
 			updateButtonVert();
@@ -95,7 +101,10 @@ public class MainMenu : MonoBehaviour {
 				Application.Quit();
 		}
 		else {
-			rectPopup = GUI.Window(windowID, rectPopup, PopupWindow, "");
+			if (windowID == 3)
+				namePopup = GUI.Window(windowID, namePopup, PopupWindow, "");
+			else
+				rectPopup = GUI.Window(windowID, rectPopup, PopupWindow, "");
 			GUI.FocusWindow(windowID);
 		}
 	}
@@ -125,8 +134,19 @@ public class MainMenu : MonoBehaviour {
 				popupToggle();
 			}			
 		}
+		
+		//Name prompt for high scores
+		else if (windowID == 3) {
+			GUI.Box(new Rect(0,0,300,25),"Enter Your Name");
+			pName = GUI.TextField(new Rect(0,30,300,25), pName, 50);
+			playerName = pName;
+			
+			if (GUI.Button(new Rect(0,60,300,25),"Start Game")) {
+				Application.LoadLevel("Game");
+			}
+		}
 	}
-	
+				
 	//toggles popup window on/off
 	private void popupToggle() {
 		if (showPopup == true)

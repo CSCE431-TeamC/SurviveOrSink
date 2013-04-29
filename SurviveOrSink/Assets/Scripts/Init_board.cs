@@ -11,11 +11,16 @@ public class Init_board : MonoBehaviour
 	public GUIStyle scores;
 	public GUIStyle instructions;
 	public GUIStyle menuPopup;
+	public GUIStyle instructionsPopup;
 	public GUIStyle wipPopup;
 	
 	//used in popup window
 	private bool showPopup = false;
 	private Rect rectPopup;			//rectangle for popup window
+	private bool hideMenu = false;
+	
+	//keep track of score
+	public static int score;
 	
 	public static GameObject[,] gameGrid = new GameObject[10,10];
 	public static GameObject[,] observationGrid = new GameObject[10,10];
@@ -47,8 +52,11 @@ public class Init_board : MonoBehaviour
 		//scrollPosition = GUI.BeginScrollView(new Rect((Screen.width/2)+125,20,(Screen.width/2)-20,(Screen.height/2)-20),scrollPosition,new Rect((Screen.width/2)+125,20,Screen.width/2-125,(Screen.height/2)-20),false,true);
 		//GUI.Label(new Rect((Screen.width/2)+125,20,Screen.width/2-125,(Screen.height/2)-20), messages);
 		//GUI.EndScrollView();
-		if (Event.current.Equals(Event.KeyboardEvent("escape")))
+		if (Event.current.Equals(Event.KeyboardEvent("escape")) || LocalBattle.gameOver) {
+			if (LocalBattle.gameOver)
+				PlayerPrefs.SetInt("currentplayer", score);
 			popupToggle();
+		}
 		rectPopup = new Rect((int)Screen.width/2-480,80,960,520);
 		if (showPopup == true) {
 			rectPopup = GUI.Window(0, rectPopup, PopupWindow, "");
@@ -107,6 +115,9 @@ public class Init_board : MonoBehaviour
         var battle = new GameObject("LocalBattle");
         battle.AddComponent<LocalBattle>().initialize(op1, op2, new Size(10, 10));
 	
+					
+		//Keep track of score
+		score = 0;
 	}
 	
 	// Update is called once per frame
@@ -133,28 +144,35 @@ public class Init_board : MonoBehaviour
 		int buttonHoriz = (int) (960-276)/2;	//x-coordinate of button
 		int buttonVert = 100;					//y-coordinate of button
 		
-		GUI.Box(new Rect(0,0,960,520),"",menuPopup);
-		
-		//High scores button
-		if (GUI.Button(new Rect(buttonHoriz,buttonVert,buttonW,buttonH),"",scores)) {
-			Application.LoadLevel("Scoreboard");
+		if (hideMenu == false) {
+			GUI.Box(new Rect(0,0,960,520),"",menuPopup);
+			
+			//High scores button
+			if (GUI.Button(new Rect(buttonHoriz,buttonVert,buttonW,buttonH),"",scores)) {
+				Application.LoadLevel("Scoreboard");
+			}
+			
+			//Instructions button
+			buttonVert += (buttonH+buttonSpace);
+			if (GUI.Button(new Rect(buttonHoriz,buttonVert,buttonW,buttonH),"",instructions)) {
+				menuToggle();
+			}
+			
+			//Quit button
+			buttonVert += (buttonH+buttonSpace);
+			if (GUI.Button(new Rect(buttonHoriz,buttonVert,buttonW,buttonH),"",quit)) {
+				Application.LoadLevel("MainMenu");
+			}
 		}
-		
-		//Instructions button
-		buttonVert += (buttonH+buttonSpace);
-		if (GUI.Button(new Rect(buttonHoriz,buttonVert,buttonW,buttonH),"",instructions)) {
-			GUI.Box(new Rect(0,0,960,520),"",wipPopup); //currently gets covered by menuPopup - fix this
-		}
-		
-		//Quit button
-		buttonVert += (buttonH+buttonSpace);
-		if (GUI.Button(new Rect(buttonHoriz,buttonVert,buttonW,buttonH),"",quit)) {
-			Application.LoadLevel("MainMenu");
-		}
+		else
+			GUI.Box(new Rect(0,0,960,520),"",instructionsPopup);
 		
 		//Back button
 		if (GUI.Button(new Rect(850,460,92,37),"",back)) {
-			popupToggle();
+			if (hideMenu == true)
+				menuToggle();
+			else
+				popupToggle();
 		}			
 	}
 	//GUI - toggles popup window on/off
@@ -163,5 +181,12 @@ public class Init_board : MonoBehaviour
 			showPopup = false;
 		else
 			showPopup = true;
+	}
+	//GUI - toggles menu popup on/off
+	private void menuToggle() {
+		if (hideMenu == true)
+			hideMenu = false;
+		else
+			hideMenu = true;
 	}
 }

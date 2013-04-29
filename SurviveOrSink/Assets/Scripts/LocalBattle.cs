@@ -22,7 +22,7 @@ public class LocalBattle : MonoBehaviour
     private List<int> shipSizes;        // if using a custom game type
     private bool useModels;             //    use default ships
 
-    private bool gameOver = false;
+    public static bool gameOver = false;
     private bool gameStarted = false;
 
     public void initialize(BattleshipPlayer op1, BattleshipPlayer op2, Size boardSize, params int[] shipSizes)
