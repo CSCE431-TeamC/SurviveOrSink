@@ -225,7 +225,8 @@ public class SmartAI : BattleshipPlayer
         SunkFromShipConstraints();
 		
 		bool success = false;
-		while(!success)
+		int tries = 0;
+		while(!success && tries < 100)
 		{
         	// if we're certain that a ship must be at some point, choose that
 	        if (mustExplore.Count > 0)
@@ -245,6 +246,12 @@ public class SmartAI : BattleshipPlayer
 	            // if there are no outstanding hits, explore empty space
 	            else shot = GetSpacePoint();
 	        }
+			
+			tries++;
+			
+			if(tries > 50 && success == false) {
+				shot = new Point(rand.Next(0,9),rand.Next(0,9));
+			}
 			
 			success = true;
             foreach (Point s in this.mShots)

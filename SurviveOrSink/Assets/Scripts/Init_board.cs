@@ -104,18 +104,50 @@ public class Init_board : MonoBehaviour
 				
 			}
 		}
+		//string gameType = "Human:Smart";
 		
-		//gameGrid[16].renderer.material.color = Color.white;
         var go1 = new GameObject("Player 1");
-        var op1 = go1.AddComponent<HumanPlayer>();
-
         var go2 = new GameObject("Player 2");
-        var op2 = go2.AddComponent<RandomOpponent>();
-
+		
+		BattleshipPlayer op1 = null, op2 = null;
+		
+		switch(MainMenu.gameType) {
+		case "Human:Smart":
+	        op1 = go1.AddComponent<HumanPlayer>();
+	        op2 = go2.AddComponent<SmartAI>();
+			break;
+		case "Human:Random":
+	        op1 = go1.AddComponent<HumanPlayer>();
+	        op2 = go2.AddComponent<RandomOpponent>();
+			break;
+		case "Smart:Smart":
+	        op1 = go1.AddComponent<SmartAI>();
+	        op2 = go2.AddComponent<SmartAI>();
+			break;
+		case "Smart:Random":
+	        op1 = go1.AddComponent<SmartAI>();
+	        op2 = go2.AddComponent<RandomOpponent>();
+			break;
+		case "Random:Smart":
+	        op1 = go1.AddComponent<RandomOpponent>();
+	        op2 = go2.AddComponent<SmartAI>();
+			break;
+		case "Random:Random":
+	        op1 = go1.AddComponent<RandomOpponent>();
+	        op2 = go2.AddComponent<RandomOpponent>();
+			break;
+		default:
+	        op1 = go1.AddComponent<RandomOpponent>();
+	        op2 = go2.AddComponent<SmartAI>();
+			break;
+		}
+		
+	        /*op1 = go1.AddComponent<RandomOpponent>();
+	        op2 = go2.AddComponent<SmartAI>();*/
+		
         var battle = new GameObject("LocalBattle");
         battle.AddComponent<LocalBattle>().initialize(op1, op2, new Size(10, 10));
 	
-					
 		//Keep track of score
 		score = 0;
 	}
