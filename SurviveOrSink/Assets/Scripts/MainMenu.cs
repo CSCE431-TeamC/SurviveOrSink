@@ -81,19 +81,10 @@ public class MainMenu : MonoBehaviour {
 				popupToggle();
 			}
 			
-			//Options button
-			updateButtonVert();
-			if(GUI.Button(new Rect(buttonHoriz,buttonVert,buttonW,buttonH),"",options)) {
-				//Load options
-				windowID = 2;
-				popupToggle();
-			}
-			
 			//Ship Models button
 			updateButtonVert();
 			if(GUI.Button(new Rect(buttonHoriz,buttonVert,buttonW,buttonH),"",ships)) {
-				windowID = 2;
-				popupToggle();
+				Application.LoadLevel("Ships");
 			}
 			
 			//Credits button

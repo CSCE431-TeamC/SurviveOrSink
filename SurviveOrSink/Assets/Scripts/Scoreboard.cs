@@ -61,9 +61,6 @@ public class Scoreboard : MonoBehaviour {
 		if(GUI.Button(new Rect(Screen.width/2-138,550,276,51),"",clear)) {
 			PlayerPrefs.DeleteAll();
 		}
-		if(GUI.Button(new Rect(0,Screen.height-47,102,47),"",back)) {
-			Application.LoadLevel("Game");
-		}
 		if(GUI.Button(new Rect(Screen.width-276,Screen.height-51,276,51),"",quit)) {
 			Application.LoadLevel("MainMenu");
 		}
