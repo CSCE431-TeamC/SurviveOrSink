@@ -36,19 +36,19 @@ public class Scoreboard : MonoBehaviour {
 		GUI.Box(new Rect(Screen.width/2-480,105,960,520),"",background);
 		
 		//High Scores
-		GUI.Box(new Rect(boxHoriz/2,boxVert,boxW,boxH), PlayerPrefs.GetString("firstN", "Player"));
+		GUI.Box(new Rect(boxHoriz/2,boxVert,boxW,boxH), PlayerPrefs.GetString("firstN"));
 		GUI.Box(new Rect(boxHoriz*(float)1.5,boxVert,boxW,boxH), PlayerPrefs.GetInt("first", 0).ToString());
 		updateBoxVert();
-		GUI.Box(new Rect(boxHoriz/2,boxVert,boxW,boxH), PlayerPrefs.GetString("secondN", "Player"));
+		GUI.Box(new Rect(boxHoriz/2,boxVert,boxW,boxH), PlayerPrefs.GetString("secondN"));
 		GUI.Box(new Rect(boxHoriz*(float)1.5,boxVert,boxW,boxH), PlayerPrefs.GetInt("second", 0).ToString());
 		updateBoxVert();
-		GUI.Box(new Rect(boxHoriz/2,boxVert,boxW,boxH), PlayerPrefs.GetString("thirdN", "Player"));
+		GUI.Box(new Rect(boxHoriz/2,boxVert,boxW,boxH), PlayerPrefs.GetString("thirdN"));
 		GUI.Box(new Rect(boxHoriz*(float)1.5,boxVert,boxW,boxH), PlayerPrefs.GetInt("third", 0).ToString());
 		updateBoxVert();
-		GUI.Box(new Rect(boxHoriz/2,boxVert,boxW,boxH), PlayerPrefs.GetString("fourthN", "Player"));
+		GUI.Box(new Rect(boxHoriz/2,boxVert,boxW,boxH), PlayerPrefs.GetString("fourthN"));
 		GUI.Box(new Rect(boxHoriz*(float)1.5,boxVert,boxW,boxH), PlayerPrefs.GetInt("fourth", 0).ToString());
 		updateBoxVert();
-		GUI.Box(new Rect(boxHoriz/2,boxVert,boxW,boxH), PlayerPrefs.GetString("fifthN", "Player"));
+		GUI.Box(new Rect(boxHoriz/2,boxVert,boxW,boxH), PlayerPrefs.GetString("fifthN"));
 		GUI.Box(new Rect(boxHoriz*(float)1.5,boxVert,boxW,boxH), PlayerPrefs.GetInt("fifth", 0).ToString());
 		
 		//Update scores if necessary

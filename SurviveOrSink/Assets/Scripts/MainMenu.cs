@@ -21,7 +21,15 @@ public class MainMenu : MonoBehaviour {
 	private Rect namePopup;			//rectangle for name prompt
 	public static string playerName;
 	public string pName;
+	public static string gameType;
 	private int windowID = -1;
+	
+	//toggle buttons
+	private bool p1human = true;
+	private bool p1random = false;
+	private bool p1smart = false;
+	private bool p2random = true;
+	private bool p2smart = false;
 	
 	//images for popup windows
 	public GUIStyle instructionsPopup;
@@ -44,7 +52,7 @@ public class MainMenu : MonoBehaviour {
 		buttonHoriz = (int) Screen.width/2-buttonW/2;
 		buttonVert = 100;
 		rectPopup = new Rect((int)Screen.width/2-480,80,960,520);
-		namePopup = new Rect((int)Screen.width/2-150,(int)Screen.height/2-50,300,100);
+		namePopup = new Rect((int)Screen.width/2-250,(int)Screen.height/2-100,500,200);
 		GUI.skin = mySkin;
 		
 		//Game Logo
@@ -137,11 +145,53 @@ public class MainMenu : MonoBehaviour {
 		
 		//Name prompt for high scores
 		else if (windowID == 3) {
-			GUI.Box(new Rect(0,0,300,25),"Enter Your Name");
-			pName = GUI.TextField(new Rect(0,30,300,25), pName, 50);
+			GUI.Box(new Rect(0,0,500,25),"Enter Your Name");
+			pName = GUI.TextField(new Rect(0,30,500,25), pName, 50);
 			playerName = pName;
 			
-			if (GUI.Button(new Rect(0,60,300,25),"Start Game")) {
+			//toggle options
+			GUI.Box(new Rect(0,60,250,25), "Player 1 Option");
+			GUI.Box(new Rect(250,60,250,25), "Player 2 Option");
+			
+			p1human = GUI.Toggle (new Rect(0,90,250,25), p1human, "Human");
+			if (p1human) {
+				p1random = false;
+				p1smart = false;
+			}
+			p1random = GUI.Toggle (new Rect(0,120,250,25), p1random, "Random AI");
+			if (p1random) {
+				p1human = false;
+				p1smart = false;
+			}
+			p1smart = GUI.Toggle(new Rect(0,150,250,25), p1smart, "Smart AI");
+			if (p1smart) {
+				p1human = false;
+				p1random = false;
+			}
+			
+			p2random = GUI.Toggle(new Rect(250,90,250,25), p2random, "Random AI");
+			if (p2random)
+				p2smart = false;
+			p2smart = GUI.Toggle(new Rect(250,120,250,25), p2smart, "Smart AI");
+			if (p2smart)
+				p2random = false;
+			
+			//"First Player: Second Player"
+				
+			if (GUI.Button(new Rect(0,180,500,25),"Start Game")) {
+				if (p1human && p2random)
+					gameType = "Human:Random";
+				else if (p1human && p2smart)
+					gameType = "Human:Smart";
+				else if (p1random && p2random)
+					gameType = "Random:Random";
+				else if (p1random && p2smart)
+					gameType = "Random:Smart";
+				else if (p1smart && p2random)
+					gameType = "Smart:Random";
+				else if (p1smart && p2smart)
+					gameType = "Smart:Smart";
+				Debug.Log(gameType);
 				Application.LoadLevel("Game");
 			}
 		}

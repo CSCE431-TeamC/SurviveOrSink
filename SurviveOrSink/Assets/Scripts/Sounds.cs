@@ -4,20 +4,23 @@ using System.Collections;
 [RequireComponent(typeof(AudioSource))]
 public class Sounds : MonoBehaviour {
 	public AudioClip explode_sound;
-	public static bool play;
+	public AudioClip miss_sound;
+	public static bool playHit = false;
+	public static bool playMiss = false;
 
 	// Use this for initialization
 	void Start () {
-		play = false;
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-		
-		
-		if (play) {
+		if (playHit) {
 			audio.PlayOneShot(explode_sound);
-			play = false;
+			playHit = false;
+		}
+		if (playMiss) {
+			audio.PlayOneShot(miss_sound);
+			playMiss = false;
 		}
 	}
 }
