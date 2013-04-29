@@ -86,6 +86,7 @@ public class LocalBattle : MonoBehaviour
         opponents[currentplayer].StartTurn();
 
         gameStarted = true;
+		gameOver = false;
     }
 
     void Update()
